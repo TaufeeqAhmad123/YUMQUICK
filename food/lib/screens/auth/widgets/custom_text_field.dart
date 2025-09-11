@@ -48,7 +48,7 @@ class CustomTextField extends StatelessWidget {
           obscureText: obscureText,
           validator: validator,
           maxLines: maxLines,
-          enabled: enabled,
+        //  enabled: enabled,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 color: AppColors.textPrimary,
               ),
@@ -63,39 +63,36 @@ class CustomTextField extends StatelessWidget {
             fillColor: AppColors.yellow,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(
-                color: AppColors.border,
-                width: 1,
-              ),
+              borderSide: BorderSide.none,
             ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(
-                color: AppColors.border,
-                width: 1,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(
-                color: AppColors.primary,
-                width: 2,
-              ),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(
-                color: AppColors.error,
-                width: 1,
-              ),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(
-                color: AppColors.error,
-                width: 2,
-              ),
-            ),
+            // enabledBorder: OutlineInputBorder(
+            //   borderRadius: BorderRadius.circular(12),
+            //   borderSide: const BorderSide(
+            //     color: AppColors.border,
+            //     width: 1,
+            //   ),
+            // ),
+            // focusedBorder: OutlineInputBorder(
+            //   borderRadius: BorderRadius.circular(12),
+            //   borderSide: const BorderSide(
+            //     color: AppColors.primary,
+            //     width: 2,
+            //   ),
+            // ),
+            // errorBorder: OutlineInputBorder(
+            //   borderRadius: BorderRadius.circular(12),
+            //   borderSide: const BorderSide(
+            //     color: AppColors.error,
+            //     width: 1,
+            //   ),
+            // ),
+            // focusedErrorBorder: OutlineInputBorder(
+            //   borderRadius: BorderRadius.circular(12),
+            //   borderSide: const BorderSide(
+            //     color: AppColors.error,
+            //     width: 2,
+            //   ),
+            // ),
             contentPadding: const EdgeInsets.symmetric(
               horizontal: 16,
               vertical: 16,

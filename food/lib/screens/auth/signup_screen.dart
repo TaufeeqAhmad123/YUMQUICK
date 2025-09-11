@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
 
@@ -9,7 +10,7 @@ import 'widgets/custom_text_field.dart';
 import 'widgets/social_login_button.dart';
 
 class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+  SignupScreen({super.key});
 
   @override
   State<SignupScreen> createState() => _SignupScreenState();
@@ -17,32 +18,15 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
-  final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
   bool _obscurePassword = true;
-  bool _obscureConfirmPassword = true;
 
   @override
   void dispose() {
-    _nameController.dispose();
     _emailController.dispose();
-    _phoneController.dispose();
     _passwordController.dispose();
-    _confirmPasswordController.dispose();
     super.dispose();
-  }
-
-  String? _validateName(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter your full name';
-    }
-    if (value.length < 2) {
-      return 'Name must be at least 2 characters';
-    }
-    return null;
   }
 
   String? _validateEmail(String? value) {
@@ -51,16 +35,6 @@ class _SignupScreenState extends State<SignupScreen> {
     }
     if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
       return 'Please enter a valid email';
-    }
-    return null;
-  }
-
-  String? _validatePhone(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter your phone number';
-    }
-    if (value.length < 10) {
-      return 'Please enter a valid phone number';
     }
     return null;
   }
@@ -75,24 +49,12 @@ class _SignupScreenState extends State<SignupScreen> {
     return null;
   }
 
-  String? _validateConfirmPassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please confirm your password';
-    }
-    if (value != _passwordController.text) {
-      return 'Passwords do not match';
-    }
-    return null;
-  }
-
-  Future<void> _handleSignup() async {
+  Future<void> _handleLogin() async {
     if (_formKey.currentState!.validate()) {
       final authProvider = context.read<AuthProvider>();
-      final success = await authProvider.signup(
-        _nameController.text.trim(),
+      final success = await authProvider.login(
         _emailController.text.trim(),
         _passwordController.text,
-        _phoneController.text.trim(),
       );
 
       if (success && mounted) {
@@ -100,7 +62,7 @@ class _SignupScreenState extends State<SignupScreen> {
       } else if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Failed to create account. Please try again.'),
+            content: Text('Invalid email or password'),
             backgroundColor: AppColors.error,
           ),
         );
@@ -111,196 +73,269 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24.0),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                // Header
-                Text(
-                  'Create Account',
-                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                    color: AppColors.textPrimary,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Join ${AppStrings.appName} and start ordering',
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-                const SizedBox(height: 32),
-                
-                // Full Name Field
-                CustomTextField(
-                  controller: _nameController,
-                  label: AppStrings.fullName,
-                  keyboardType: TextInputType.name,
-                  validator: _validateName,
-                  prefixIcon: Icons.person_outline,
-                ),
-                const SizedBox(height: 20),
-                
-                // Email Field
-                CustomTextField(
-                  controller: _emailController,
-                  label: AppStrings.email,
-                  keyboardType: TextInputType.emailAddress,
-                  validator: _validateEmail,
-                  prefixIcon: Icons.email_outlined,
-                ),
-                const SizedBox(height: 20),
-                
-                // Phone Field
-                CustomTextField(
-                  controller: _phoneController,
-                  label: AppStrings.phoneNumber,
-                  keyboardType: TextInputType.phone,
-                  validator: _validatePhone,
-                  prefixIcon: Icons.phone_outlined,
-                ),
-                const SizedBox(height: 20),
-                
-                // Password Field
-                CustomTextField(
-                  controller: _passwordController,
-                  label: AppStrings.password,
-                  obscureText: _obscurePassword,
-                  validator: _validatePassword,
-                  prefixIcon: Icons.lock_outline,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                      color: AppColors.textSecondary,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscurePassword = !_obscurePassword;
-                      });
-                    },
-                  ),
-                ),
-                const SizedBox(height: 20),
-                
-                // Confirm Password Field
-                CustomTextField(
-                  controller: _confirmPasswordController,
-                  label: AppStrings.confirmPassword,
-                  obscureText: _obscureConfirmPassword,
-                  validator: _validateConfirmPassword,
-                  prefixIcon: Icons.lock_outline,
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _obscureConfirmPassword ? Icons.visibility : Icons.visibility_off,
-                      color: AppColors.textSecondary,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _obscureConfirmPassword = !_obscureConfirmPassword;
-                      });
-                    },
-                  ),
-                ),
-                const SizedBox(height: 32),
-                
-                // Sign Up Button
-                Consumer<AuthProvider>(
-                  builder: (context, authProvider, child) {
-                    return SizedBox(
-                      width: double.infinity,
-                      height: 56,
-                      child: ElevatedButton(
-                        onPressed: authProvider.isLoading ? null : _handleSignup,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          elevation: 0,
+      backgroundColor: AppColors.yellowbase,
+      body: Stack(
+        children: [
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              alignment: Alignment.bottomCenter,
+              width: double.infinity,
+              height: 750,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 40),
+                        // Header
+
+                        CustomTextField(
+                          controller: _emailController,
+                          label: 'Full Name',
+                          hintText: 'Jhon Dev',
+                          keyboardType: TextInputType.emailAddress,
+                          validator: _validateEmail,
+                          prefixIcon: Icons.email_outlined,
                         ),
-                        child: authProvider.isLoading
-                            ? const CircularProgressIndicator(
-                                color: Colors.white,
-                                strokeWidth: 2,
-                              )
-                            : Text(
-                                AppStrings.signup,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                        const SizedBox(height: 20),
+                        CustomTextField(
+                          controller: _emailController,
+                          label: AppStrings.email,
+                          hintText: 'Jhondev@gmail.com',
+                          keyboardType: TextInputType.emailAddress,
+                          validator: _validateEmail,
+                          prefixIcon: Icons.email_outlined,
+                        ),
+                        const SizedBox(height: 20),
+
+                        // Password Field
+                        CustomTextField(
+                          controller: _passwordController,
+                          label: AppStrings.password,
+                          hintText: '********',
+                          obscureText: _obscurePassword,
+                          validator: _validatePassword,
+                          prefixIcon: Icons.lock_outline,
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscurePassword
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: AppColors.textSecondary,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _obscurePassword = !_obscurePassword;
+                              });
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        CustomTextField(
+                          controller: _emailController,
+                          label: 'Mobile Number',
+                          hintText: '123-456-7890',
+                          keyboardType: TextInputType.phone,
+                          validator: _validateEmail,
+                          prefixIcon: Icons.email_outlined,
+                        ),
+                        const SizedBox(height: 16),
+
+                        CustomTextField(
+                          controller: _emailController,
+                          label: 'Address',
+                          hintText: '123 Main St, City, Country',
+                          keyboardType: TextInputType.streetAddress,
+                          validator: _validateEmail,
+                          prefixIcon: Icons.location_on_outlined,
+                        ),
+                        const SizedBox(height: 15),
+
+                        RichText(
+                          // textAlign: TextAlign.center,
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'By signing up, you agree to our ',
+                                style: GoogleFonts.leagueSpartan(
+                                  color: AppColors.font,
+                                  fontSize: 14,
                                 ),
                               ),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(height: 32),
-                
-                // Divider
-                Row(
-                  children: [
-                    const Expanded(child: Divider(color: AppColors.border)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(
-                        AppStrings.orContinueWith,
-                        style: TextStyle(
-                          color: AppColors.textSecondary,
-                          fontSize: 14,
+                              TextSpan(
+                                text: 'Terms of Service',
+                                style: GoogleFonts.leagueSpartan(
+                                  color: AppColors.orangeBase,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              TextSpan(
+                                text: ' and ',
+                                style: GoogleFonts.leagueSpartan(
+                                  color: AppColors.font,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'Privacy Policy',
+                                style: GoogleFonts.leagueSpartan(
+                                  color: AppColors.orangeBase,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              TextSpan(
+                                text: '.',
+                                style: GoogleFonts.leagueSpartan(
+                                  color: AppColors.textSecondary,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                            style: GoogleFonts.leagueSpartan(
+                              color: AppColors.textSecondary,
+                              fontSize: 14,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    const Expanded(child: Divider(color: AppColors.border)),
-                  ],
-                ),
-                const SizedBox(height: 32),
-                
-                // Social Login Buttons
-                Row(
-                  children: [
-                    SocialLoginButton(
-                                  icon: AppStrings.googleIcon,
-                                  onPressed: () {}),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                
-                // Login Link
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      AppStrings.alreadyHaveAccount,
-                      style: TextStyle(
-                        color: AppColors.textSecondary,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        context.go('/login');
-                      },
-                      child: Text(
-                        AppStrings.login,
-                        style: TextStyle(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w600,
+                        SizedBox(height: 16),
+                        // Login Button
+                        Consumer<AuthProvider>(
+                          builder: (context, authProvider, child) {
+                            return SizedBox(
+                              width: double.infinity,
+                              height: 56,
+                              child: ElevatedButton(
+                                onPressed: authProvider.isLoading
+                                    ? null
+                                    : _handleLogin,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.orangeBase,
+                                  foregroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                  elevation: 0,
+                                ),
+                                child: authProvider.isLoading
+                                    ? const CircularProgressIndicator(
+                                        color: Colors.white,
+                                        strokeWidth: 2,
+                                      )
+                                    : Text(
+                                        AppStrings.signup,
+                                        style: GoogleFonts.leagueSpartan(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                              ),
+                            );
+                          },
                         ),
-                      ),
+                        const SizedBox(height: 32),
+
+                        // Divider
+                        const Row(
+                          children: [
+                            Expanded(child: Divider(color: AppColors.border)),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: Text(
+                                AppStrings.orContinueWith,
+                                style: TextStyle(
+                                  color: AppColors.textSecondary,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                            Expanded(child: Divider(color: AppColors.border)),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+
+                        // Social Login Buttons
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SocialLoginButton(
+                                icon: AppStrings.facebookIcon,
+                                onPressed: () {}),
+                            const SizedBox(width: 10),
+                            SocialLoginButton(
+                                icon: AppStrings.facebookIcon,
+                                onPressed: () {}),
+                            const SizedBox(width: 10),
+                            SocialLoginButton(
+                                icon: AppStrings.facebookIcon,
+                                onPressed: () {}),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+
+                        // Sign Up Link
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              AppStrings.alreadyHaveAccount,
+                              style: GoogleFonts.leagueSpartan(
+                                  color: AppColors.font, fontSize: 16),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                context.go('/login');
+                              },
+                              child: Text(
+                                AppStrings.login,
+                                style: GoogleFonts.leagueSpartan(
+                                    color: AppColors.orangeBase, fontSize: 16),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ],
+              ),
             ),
           ),
-        ),
+          SafeArea(
+              child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: Row(
+              children: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.arrow_back_ios,
+                    color: AppColors.font,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                const SizedBox(
+                  width: 60,
+                ),
+                Text(
+                  'Create account',
+                  style: GoogleFonts.leagueSpartan(
+                      color: AppColors.font2,
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold),
+                )
+              ],
+            ),
+          ))
+        ],
       ),
     );
   }
