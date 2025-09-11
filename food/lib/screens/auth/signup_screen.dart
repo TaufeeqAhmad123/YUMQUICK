@@ -266,28 +266,12 @@ class _SignupScreenState extends State<SignupScreen> {
                 // Social Login Buttons
                 Row(
                   children: [
-                    Expanded(
-                      child: SocialLoginButton(
-                        icon: Icons.g_mobiledata,
-                        label: 'Google',
-                        onPressed: () {
-                          // TODO: Implement Google signup
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: SocialLoginButton(
-                        icon: Icons.facebook,
-                        label: 'Facebook',
-                        onPressed: () {
-                          // TODO: Implement Facebook signup
-                        },
-                      ),
-                    ),
+                    SocialLoginButton(
+                                  icon: AppStrings.googleIcon,
+                                  onPressed: () {}),
                   ],
                 ),
-                const SizedBox(height: 32),
+                const SizedBox(height: 20),
                 
                 // Login Link
                 Row(

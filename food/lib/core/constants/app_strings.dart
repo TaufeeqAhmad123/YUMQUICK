@@ -61,4 +61,9 @@ class AppStrings {
   static const String onboardingAnimation1 = 'assets/animation/1.json';
   static const String onboardingAnimation2 = 'assets/animation/2.json';
   static const String onboardingAnimation3 = 'assets/animation/3.json';
+  //icons
+  static const String googleIcon = 'assets/icons/google.svg';
+  static const String facebookIcon = 'assets/icons/facebook.svg'; 
+  static const String finger = 'assets/icons/finge.svg'; 
+
 }

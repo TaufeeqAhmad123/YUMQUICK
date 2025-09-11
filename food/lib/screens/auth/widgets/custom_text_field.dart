@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../core/constants/app_colors.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -34,10 +35,11 @@ class CustomTextField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: AppColors.textPrimary,
-            fontWeight: FontWeight.w500,
-          ),
+         style: GoogleFonts.leagueSpartan(
+                              color: AppColors.font,
+                              fontSize: 22,
+                              fontWeight: FontWeight.w600,
+                            ),
         ),
         const SizedBox(height: 8),
         TextFormField(
@@ -48,23 +50,17 @@ class CustomTextField extends StatelessWidget {
           maxLines: maxLines,
           enabled: enabled,
           style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: AppColors.textPrimary,
-          ),
+                color: AppColors.textPrimary,
+              ),
           decoration: InputDecoration(
             hintText: hintText ?? label,
-            hintStyle: TextStyle(
-              color: AppColors.textLight,
+            hintStyle: GoogleFonts.leagueSpartan(
+              color: AppColors.font,
+              fontSize: 20,
             ),
-            prefixIcon: prefixIcon != null
-                ? Icon(
-                    prefixIcon,
-                    color: AppColors.textSecondary,
-                    size: 20,
-                  )
-                : null,
             suffixIcon: suffixIcon,
             filled: true,
-            fillColor: AppColors.surface,
+            fillColor: AppColors.yellow,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(
