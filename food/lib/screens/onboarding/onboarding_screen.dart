@@ -21,19 +21,19 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     OnboardingData(
       title: AppStrings.onboardingTitle1,
       subtitle: AppStrings.onboardingSubtitle1,
-      image: '🍕',
+      image: AppStrings.onboardingAnimation3,
       backgroundColor: Colors.orange.shade50,
     ),
     OnboardingData(
       title: AppStrings.onboardingTitle2,
       subtitle: AppStrings.onboardingSubtitle2,
-      image: '💳',
+      image: AppStrings.onboardingAnimation1,
       backgroundColor: Colors.blue.shade50,
     ),
     OnboardingData(
       title: AppStrings.onboardingTitle3,
       subtitle: AppStrings.onboardingSubtitle3,
-      image: '🚚',
+      image: AppStrings.onboardingAnimation2,
       backgroundColor: Colors.green.shade50,
     ),
   ];
@@ -82,29 +82,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const SizedBox(width: 60),
-                  Consumer<OnboardingProvider>(
-                    builder: (context, provider, child) {
-                      return Row(
-                        children: List.generate(
-                          _pages.length,
-                          (index) => Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 4),
-                            width: 8,
-                            height: 8,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: provider.currentPage == index
-                                  ? AppColors.primary
-                                  : AppColors.textLight,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
                   TextButton(
                     onPressed: _skipOnboarding,
-                    child: Text(
+                    child:const Text(
                       AppStrings.skip,
                       style: TextStyle(
                         color: AppColors.textSecondary,
@@ -127,6 +107,32 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ),
             ),
             // Bottom Navigation
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Consumer<OnboardingProvider>(
+                  builder: (context, provider, child) {
+                    return Row(
+                      children: List.generate(
+                        _pages.length,
+                        (index) => Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 4),
+                          width: 25,
+                          height: 5,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: provider.currentPage == index
+                                ? AppColors.orangeBase
+                                : AppColors.textLight,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Consumer<OnboardingProvider>(

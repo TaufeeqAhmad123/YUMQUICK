@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import '../../../core/constants/app_colors.dart';
 import '../onboarding_screen.dart';
 
@@ -20,33 +22,19 @@ class OnboardingPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Image/Icon
-            Container(
-              width: 200,
-              height: 200,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(100),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 20,
-                    offset: const Offset(0, 10),
-                  ),
-                ],
-              ),
-              child: Center(
-                child: Text(
-                  data.image,
-                  style: const TextStyle(fontSize: 80),
-                ),
-              ),
+            Lottie.asset(
+              data.image,
+              height: 300,
+              width: 300,
+              fit: BoxFit.contain,
             ),
             const SizedBox(height: 60),
             // Title
             Text(
               data.title,
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                color: AppColors.textPrimary,
+              style: GoogleFonts.inter(
+                color: AppColors.orangeBase,
+                fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
               textAlign: TextAlign.center,
@@ -55,9 +43,9 @@ class OnboardingPage extends StatelessWidget {
             // Subtitle
             Text(
               data.subtitle,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: AppColors.textSecondary,
-                height: 1.5,
+              style: GoogleFonts.leagueSpartan(
+                color: AppColors.font,
+                fontSize: 18,
               ),
               textAlign: TextAlign.center,
             ),

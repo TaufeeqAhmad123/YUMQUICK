@@ -4,7 +4,7 @@ class AppStrings {
   static const String appTagline = 'Delicious food delivered fast';
 
   // Onboarding
-  static const String onboardingTitle1 = 'Choose Your Food';
+  static const String onboardingTitle1 = 'Order For Food';
   static const String onboardingSubtitle1 =
       'Easily find your type of food craving and you\'ll get delivery in wide range';
 
@@ -57,4 +57,8 @@ class AppStrings {
   //Images
   static const String logo1 = 'assets/images/logo1.svg';
   static const String logo2 = 'assets/images/logo2.svg';
+  //animations
+  static const String onboardingAnimation1 = 'assets/animation/1.json';
+  static const String onboardingAnimation2 = 'assets/animation/2.json';
+  static const String onboardingAnimation3 = 'assets/animation/3.json';
 }
