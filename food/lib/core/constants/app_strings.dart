@@ -41,12 +41,13 @@ class AppStrings {
   static const String nearbyRestaurants = 'Nearby Restaurants';
 
   // Categories
-  static const String pizza = 'Pizza';
-  static const String burger = 'Burger';
-  static const String sushi = 'Sushi';
+
+  static const String Snack = 'Snack';
+  static const String meal = 'Meal';
   static const String dessert = 'Dessert';
+  static const String vegan = 'Vegan';
   static const String drinks = 'Drinks';
-  static const String salad = 'Salad';
+  
 
   // Common
   static const String loading = 'Loading...';
@@ -63,7 +64,29 @@ class AppStrings {
   static const String onboardingAnimation3 = 'assets/animation/3.json';
   //icons
   static const String googleIcon = 'assets/icons/google.svg';
-  static const String facebookIcon = 'assets/icons/facebook.svg'; 
-  static const String finger = 'assets/icons/finge.svg'; 
-
+  static const String facebookIcon = 'assets/icons/facebook.svg';
+  static const String finger = 'assets/icons/finger.svg';
+  late String bell = 'assets/icons/bell.svg';
+  String user = 'assets/icons/user.svg';
+  String cart = 'assets/icons/cart.svg';
+  static const String Dessert = 'assets/icons/dessert.svg';
+  static const String Drinks = 'assets/icons/Drinks.svg';
+  static const String Meal = 'assets/icons/Meal.svg';
+  static const String snack = 'assets/icons/snack.svg';
+  static const String Vegan = 'assets/icons/vegan.svg';
 }
+
+List<String> categoriesIcon = [
+  AppStrings.Dessert,
+  AppStrings.Drinks,
+  AppStrings.Meal,
+  AppStrings.snack,
+  AppStrings.vegan,
+];
+  List<String> categoriesList = [
+    'Snack',
+    'Meal',
+    'Dessert',
+    'Vegan',
+    'Drinks'
+  ];

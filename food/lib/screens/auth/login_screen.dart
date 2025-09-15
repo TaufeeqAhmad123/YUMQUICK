@@ -86,8 +86,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(30),
               ),
-              child: Column(
-                children: [
+              child: SingleChildScrollView(
+                child: 
                   Form(
                     key: _formKey,
                     child: Padding(
@@ -175,9 +175,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                 width: double.infinity,
                                 height: 56,
                                 child: ElevatedButton(
-                                  onPressed: authProvider.isLoading
-                                      ? null
-                                      : _handleLogin,
+                                  onPressed:(){
+                                 context.go('/home');
+                                  },
+                                  // authProvider.isLoading
+                                  //     ? null
+                                  //     : _handleLogin,
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: AppColors.orangeBase,
                                     foregroundColor: Colors.white,
@@ -268,7 +271,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                ],
+                
+                
               ),
             ),
           ),

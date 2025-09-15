@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../providers/food_provider.dart';
 
 class CategoryCard extends StatelessWidget {
-  final FoodCategory category;
+  final String image, name;
   final bool isSelected;
   final VoidCallback onTap;
 
   const CategoryCard({
     super.key,
-    required this.category,
+    required this.image,
+    required this.name,
     required this.isSelected,
     required this.onTap,
   });
@@ -18,40 +21,37 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        width: 80,
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.primary : category.color,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: AppColors.primary.withOpacity(0.3),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ]
-              : null,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              category.icon,
-              style: const TextStyle(fontSize: 32),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              category.name,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: isSelected ? Colors.white : AppColors.textPrimary,
-                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+      child: Column(
+        children: [
+          AnimatedContainer(
+              margin: const EdgeInsets.only(right: 15),
+              duration: const Duration(milliseconds: 200),
+              width: 80,
+              height: 100,
+              decoration: BoxDecoration(
+                color: isSelected ? AppColors.orangeBase : AppColors.yellow,
+                borderRadius: BorderRadius.circular(20),
               ),
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
+              child: Center(
+                child: SvgPicture.asset(
+                  image,
+                  color: isSelected ? AppColors.font : AppColors.orangeBase,
+                  height: 60,
+                  width: 50,
+                ),
+              )),
+          const SizedBox(
+            height: 8,
+          ),
+          Text(
+            name,
+            style: GoogleFonts.leagueSpartan(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: AppColors.font),
+            textAlign: TextAlign.center,
+          ),
+        ],
       ),
     );
   }
