@@ -176,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 height: 56,
                                 child: ElevatedButton(
                                   onPressed:(){
-                                 context.go('/home');
+                                 context.go('/navbar');
                                   },
                                   // authProvider.isLoading
                                   //     ? null

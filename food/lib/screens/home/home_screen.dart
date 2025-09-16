@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:food_delivery_app/screens/auth/widgets/custom_text_field.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:food_delivery_app/core/constants/app_strings.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:go_router/go_router.dart';
-
 import '../../core/constants/app_colors.dart';
-import '../../core/constants/app_strings.dart';
-import '../../providers/auth_provider.dart';
-import '../../providers/food_provider.dart';
 import 'widgets/category_card.dart';
-import 'widgets/restaurant_card.dart';
+import 'widgets/banner.dart';
+import 'widgets/best_seller.dart';
+import 'widgets/recommended_widget.dart';
 import 'widgets/search_bar.dart';
+import 'package:food_delivery_app/screens/auth/widgets/custom_text_field.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,363 +19,169 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  void _onCategorySelected(String categoryId, String categoryName) {
-    final foodProvider = context.read<FoodProvider>();
-    foodProvider.selectCategory(categoryId);
-  }
-
-  void _onSearch(String query) {
-    // TODO: Implement search functionality
-  }
+  int selectedIndex = 0;
 
   List<String> iconList = [
-    'assets/icons/cart.svg'
-        'assets/icons/bell.svg',
+    'assets/icons/cart.svg',
+    'assets/icons/bell.svg',
     'assets/icons/user.svg',
   ];
-  int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: AppColors.yellowbase,
-        body: Stack(
-          children: [
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                width: double.infinity,
-                height: 700,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 10,
+      backgroundColor: AppColors.yellowbase,
+      body: Column(
+        children: [
+          // 🔹 Top Yellow Header
+          Padding(
+            padding: const EdgeInsets.only(top: 40, left: 20, right: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Search + Icons
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextField(
+                        controller: _searchController,
+                        label: '',
+                        hintText: 'Search here',
+                        keyboardType: TextInputType.text,
+                        prefixIcon: Icons.search,
+                        fillColor: AppColors.font2,
                       ),
-                      SizedBox(
-                        height: 130,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          itemCount: categoriesIcon.length,
-                          itemBuilder: (context, index) {
-                            final category = categoriesIcon[index];
-                            final isSelected = index == selectedIndex;
-
-                            return Padding(
-                              padding: EdgeInsets.only(),
-                              child: CategoryCard(
-                                image: categoriesIcon[index],
-                                name: categoriesList[index],
-                                isSelected: isSelected,
-                                onTap: () {
-                                  setState(() {
-                                    selectedIndex = index;
-                                  });
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Best Seller',
-                                style: GoogleFonts.leagueSpartan(
-                                  color: AppColors.font,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                )),
-                            Row(
-                              children: [
-                                Text(
-                                  'See All',
-                                  style: GoogleFonts.leagueSpartan(
-                                    color: AppColors.orangeBase,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              const  SizedBox(
-                                  width: 15,
-                                ),
-                              const  Icon(
-                              Icons.arrow_forward_ios,
-                              color: AppColors.orangeBase,
-                              size: 16,
-                            ),
-                              ],
-                            ),
-                            
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 20,
-              left: 20,
-              right: 20,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: CustomTextField(
-                      controller: _searchController,
-                      label: '',
-                      hintText: 'search here',
-                      keyboardType: TextInputType.emailAddress,
-                      prefixIcon: Icons.email_outlined,
-                      fillColor: AppColors.font2,
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 30.0),
-                    child: Row(
+                    const SizedBox(width: 10),
+                    Row(
                       children: List.generate(
-                          iconList.length,
-                          (index) => Container(
-                                margin: const EdgeInsets.only(left: 7),
-                                height: 30,
-                                width: 30,
-                                decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    shape: BoxShape.circle),
-                                child: Center(
-                                  child: SvgPicture.asset(iconList[index],
-                                      height: 15, width: 15),
-                                ),
-                              )),
+                        iconList.length,
+                        (index) => Container(
+                          margin: const EdgeInsets.only(left: 7),
+                          height: 35,
+                          width: 35,
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: SvgPicture.asset(
+                              iconList[index],
+                              height: 18,
+                              width: 18,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              top: 120,
-              left: 20,
-              child: Text('Good Morning,',
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Text(
+                  'Good Morning,',
                   style: GoogleFonts.leagueSpartan(
                     color: AppColors.font2,
-                    fontSize: 30,
+                    fontSize: 28,
                     fontWeight: FontWeight.bold,
-                  )),
-            ),
-            Positioned(
-              top: 160,
-              left: 20,
-              child: Text('Rise and shine it breakfast Time,',
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Rise and shine it’s breakfast time!',
                   style: GoogleFonts.leagueSpartan(
                     color: AppColors.orangeBase,
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                  )),
+                  ),
+                ),
+                const SizedBox(height: 20),
+              ],
             ),
-          ],
-        )
-        //
-        // SafeArea(
-        //   child: SingleChildScrollView(
-        //     child: Column(
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       children: [
-        //         // Header Section
-        //         Container(
-        //           padding: const EdgeInsets.all(20),
-        //           decoration: const BoxDecoration(
-        //             color: Colors.white,
-        //             borderRadius: BorderRadius.only(
-        //               bottomLeft: Radius.circular(24),
-        //               bottomRight: Radius.circular(24),
-        //             ),
-        //           ),
-        //           child: Column(
-        //             crossAxisAlignment: CrossAxisAlignment.start,
-        //             children: [
-        //               // Top Bar
-        //               Row(
-        //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //                 children: [
-        //                   Column(
-        //                     crossAxisAlignment: CrossAxisAlignment.start,
-        //                     children: [
-        //                       Consumer<AuthProvider>(
-        //                         builder: (context, authProvider, child) {
-        //                           return Text(
-        //                             '${AppStrings.welcomeBack}',
-        //                             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-        //                               color: AppColors.textSecondary,
-        //                             ),
-        //                           );
-        //                         },
-        //                       ),
-        //                       Consumer<AuthProvider>(
-        //                         builder: (context, authProvider, child) {
-        //                           return Text(
-        //                             authProvider.userName ?? 'User',
-        //                             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-        //                               color: AppColors.textPrimary,
-        //                               fontWeight: FontWeight.bold,
-        //                             ),
-        //                           );
-        //                         },
-        //                       ),
-        //                     ],
-        //                   ),
-        //                   Row(
-        //                     children: [
-        //                       IconButton(
-        //                         onPressed: () {
-        //                           // TODO: Implement notifications
-        //                         },
-        //                         icon: const Icon(
-        //                           Icons.notifications_outlined,
-        //                           color: AppColors.textSecondary,
-        //                         ),
-        //                       ),
-        //                       IconButton(
-        //                         onPressed: () {
-        //                           context.read<AuthProvider>().logout();
-        //                           context.go('/login');
-        //                         },
-        //                         icon: const Icon(
-        //                           Icons.logout,
-        //                           color: AppColors.textSecondary,
-        //                         ),
-        //                       ),
-        //                     ],
-        //                   ),
-        //                 ],
-        //               ),
-        //               const SizedBox(height: 20),
+          ),
 
-        //               // Search Bar
-        //               CustomSearchBar(
-        //                 controller: _searchController,
-        //                 onChanged: _onSearch,
-        //               ),
-        //             ],
-        //           ),
-        //         ),
+          // 🔹 White Content Section (scrollable)
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    // Categories
+                    SizedBox(
+                      height: 130,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        itemCount: categoriesIcon.length,
+                        itemBuilder: (context, index) {
+                          final isSelected = index == selectedIndex;
+                          return CategoryCard(
+                            image: categoriesIcon[index],
+                            name: categoriesList[index],
+                            isSelected: isSelected,
+                            onTap: () {
+                              setState(() {
+                                selectedIndex = index;
+                              });
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 20),
 
-        //         const SizedBox(height: 24),
+                    // Best Seller Section
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Best Seller',
+                              style: GoogleFonts.leagueSpartan(
+                                color: AppColors.font,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                              )),
+                          Row(
+                            children: [
+                              Text(
+                                'See All',
+                                style: GoogleFonts.leagueSpartan(
+                                  color: AppColors.orangeBase,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              const Icon(Icons.arrow_forward_ios,
+                                  color: AppColors.orangeBase, size: 16),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    BestSellerWidget(),
+                    const SizedBox(height: 20),
 
-        //         // Categories Section
-        //         Padding(
-        //           padding: const EdgeInsets.symmetric(horizontal: 20),
-        //           child: Text(
-        //             AppStrings.categories,
-        //             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-        //               color: AppColors.textPrimary,
-        //               fontWeight: FontWeight.bold,
-        //             ),
-        //           ),
-        //         ),
-        //         const SizedBox(height: 16),
+                    // Banner
+                    BannerWidget(),
+                    const SizedBox(height: 20),
 
-        //         Consumer<FoodProvider>(
-        //           builder: (context, foodProvider, child) {
-        //             return SizedBox(
-        //               height: 100,
-        //               child: ListView.builder(
-        //                 scrollDirection: Axis.horizontal,
-        //                 padding: const EdgeInsets.symmetric(horizontal: 20),
-        //                 itemCount: foodProvider.categories.length,
-        //                 itemBuilder: (context, index) {
-        //                   final category = foodProvider.categories[index];
-        //                   final isSelected = foodProvider.selectedCategory == category.id;
-
-        //                   return Padding(
-        //                     padding: EdgeInsets.only(
-        //                       right: index < foodProvider.categories.length - 1 ? 16 : 0,
-        //                     ),
-        //                     child: CategoryCard(
-        //                       category: category,
-        //                       isSelected: isSelected,
-        //                       onTap: () => _onCategorySelected(category.id, category.name),
-        //                     ),
-        //                   );
-        //                 },
-        //               ),
-        //             );
-        //           },
-        //         ),
-
-        //         const SizedBox(height: 32),
-
-        //         // Popular Restaurants Section
-        //         Padding(
-        //           padding: const EdgeInsets.symmetric(horizontal: 20),
-        //           child: Text(
-        //             AppStrings.popularRestaurants,
-        //             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-        //               color: AppColors.textPrimary,
-        //               fontWeight: FontWeight.bold,
-        //             ),
-        //           ),
-        //         ),
-        //         const SizedBox(height: 16),
-
-        //         Consumer<FoodProvider>(
-        //           builder: (context, foodProvider, child) {
-        //             final selectedCategory = foodProvider.categories
-        //                 .where((cat) => cat.id == foodProvider.selectedCategory)
-        //                 .firstOrNull;
-
-        //             final restaurants = selectedCategory != null
-        //                 ? foodProvider.getRestaurantsByCategory(selectedCategory.name)
-        //                 : foodProvider.restaurants;
-
-        //             return ListView.builder(
-        //               shrinkWrap: true,
-        //               physics: const NeverScrollableScrollPhysics(),
-        //               padding: const EdgeInsets.symmetric(horizontal: 20),
-        //               itemCount: restaurants.length,
-        //               itemBuilder: (context, index) {
-        //                 final restaurant = restaurants[index];
-        //                 return Padding(
-        //                   padding: EdgeInsets.only(
-        //                     bottom: index < restaurants.length - 1 ? 16 : 0,
-        //                   ),
-        //                   child: RestaurantCard(
-        //                     restaurant: restaurant,
-        //                     onTap: () {
-        //                       // TODO: Navigate to restaurant details
-        //                     },
-        //                     onFavoritePressed: () {
-        //                       foodProvider.toggleFavorite(restaurant.id);
-        //                     },
-        //                   ),
-        //                 );
-        //               },
-        //             );
-        //           },
-        //         ),
-
-        //         const SizedBox(height: 24),
-        //       ],
-        //     ),
-        //   ),
-        // ),
-        );
+                    // Recommended
+                    RecommendedWidget(),
+                    const SizedBox(height: 20),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

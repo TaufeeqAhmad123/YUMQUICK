@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/widget/bottom_navbar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -18,6 +19,11 @@ class AppRouter {
         path: '/splash',
         name: 'splash',
         builder: (context, state) => const SplashScreen(),
+      ),
+      GoRoute(
+        path: '/navbar',
+        name: 'navbr',
+        builder: (context, state) => const CustomBottomNavBar(),
       ),
       GoRoute(
         path: '/onboarding',

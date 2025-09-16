@@ -58,6 +58,16 @@ class AppStrings {
   //Images
   static const String logo1 = 'assets/images/logo1.svg';
   static const String logo2 = 'assets/images/logo2.svg';
+  static const String seller1 = 'assets/images/seller1.png';
+  static const String seller2 = 'assets/images/seller2.png';
+  static const String seller3 = 'assets/images/seller3.png';
+  static const String seller4 = 'assets/images/seller4.png';
+  static const String food1 = 'assets/images/1.png';
+  static const String food2 = 'assets/images/2.png';
+  static const String food3 = 'assets/images/3.png';
+  static const String food4 = 'assets/images/4.png';
+  static const String food5 = 'assets/images/5.png';
+  static const String food6 = 'assets/images/6.png';
   //animations
   static const String onboardingAnimation1 = 'assets/animation/1.json';
   static const String onboardingAnimation2 = 'assets/animation/2.json';
@@ -74,6 +84,10 @@ class AppStrings {
   static const String Meal = 'assets/icons/Meal.svg';
   static const String snack = 'assets/icons/snack.svg';
   static const String Vegan = 'assets/icons/vegan.svg';
+  static const String home = 'assets/icons/home.svg';
+  static const String fav = 'assets/icons/fav.svg';
+  static const String notifi = 'assets/icons/notifi.svg';
+  static const String book = 'assets/icons/book.svg';
 }
 
 List<String> categoriesIcon = [
