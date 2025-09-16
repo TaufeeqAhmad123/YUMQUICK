@@ -24,10 +24,11 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
   ];
   final List<Widget> screens = const [
     HomeScreen(),
+     ProfileScreen(),
     Center(child: Text("🔍 Search Screen", style: TextStyle(fontSize: 22))),
     Center(child: Text("🛒 Cart Screen", style: TextStyle(fontSize: 22))),
     Center(child: Text("❤️ Favorites Screen", style: TextStyle(fontSize: 22))),
-    ProfileScreen()
+   
   ];
   @override
   Widget build(BuildContext context) {
