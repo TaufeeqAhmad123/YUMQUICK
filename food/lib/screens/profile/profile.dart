@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/core/constants/app_colors.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -6,66 +8,40 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100],
-      appBar: AppBar(
-        title: const Text("Profile"),
-        centerTitle: true,
-        backgroundColor: Colors.orange,
-      ),
-      body: Column(
-        children: [
-          const SizedBox(height: 16),
-          // User info
-          ListTile(
-            leading: const CircleAvatar(
-              radius: 30,
-              backgroundImage: AssetImage("assets/images/profile.jpg"),
-            ),
-            title: const Text("John Doe",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            subtitle: const Text("johndoe@example.com"),
-          ),
-
-          const SizedBox(height: 20),
-
-          // Options Grid
-          Expanded(
-            child: GridView.count(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              crossAxisCount: 2,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              children: const [
-                ProfileOption(icon: Icons.shopping_bag, label: "My Orders"),
-                ProfileOption(icon: Icons.person, label: "My Profile"),
-                ProfileOption(icon: Icons.notifications, label: "Notifications"),
-                ProfileOption(icon: Icons.settings, label: "Settings"),
-                ProfileOption(icon: Icons.help, label: "Support"),
-                ProfileOption(icon: Icons.star, label: "Reviews"),
-              ],
-            ),
-          ),
-
-          // Logout Button
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-                minimumSize: const Size(double.infinity, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+      backgroundColor: AppColors.orangeBase,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children:const [
+            const SizedBox(height: 60),
+            // User info
+            ListTile(
+              leading: const CircleAvatar(
+                radius: 30,
+                backgroundImage: AssetImage("assets/images/profile.jpg"),
               ),
-              icon: const Icon(Icons.logout, color: Colors.white),
-              label: const Text("Logout",
-                  style: TextStyle(color: Colors.white, fontSize: 16)),
-              onPressed: () {
-                // handle logout
-              },
+              title: const Text("John Doe",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              subtitle: const Text("johndoe@example.com"),
             ),
-          )
-        ],
+
+            const SizedBox(height: 20),
+
+            // Options Grid
+            ProfileOption(icon: Icons.person, label: "My Orders"),
+            ProfileOption(icon: Icons.person, label: "My Profile"),
+            ProfileOption(icon: Icons.person, label: "Delivery Address"),
+            ProfileOption(icon: Icons.person, label: "Payment Methods"),
+            ProfileOption(icon: Icons.person, label: "Contact Support"),
+            ProfileOption(icon: Icons.person, label: "Help & FAQs"),
+            ProfileOption(icon: Icons.person, label: "Settings"),
+            ProfileOption(icon: Icons.person, label: "Logout"),
+
+            
+          ],
+        ),
       ),
     );
   }
@@ -80,27 +56,32 @@ class ProfileOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 6,
-            offset: const Offset(0, 3),
-          )
-        ],
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(icon, size: 30, color: Colors.orange),
-          const SizedBox(height: 8),
-          Text(label,
-              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
-        ],
-      ),
+    return Column(
+      children: [
+        Row(
+          children: [
+            Container(
+                width: 41,
+                height: 41,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Center(
+                  child: Icon(icon, size: 30, color: Colors.orange),
+                )),
+            SizedBox(width: 12),
+            Text(label,
+                style: GoogleFonts.leagueSpartan(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white)),
+          ],
+        ),
+        const SizedBox(height: 15),
+        const Divider(color: Colors.white54),
+        const SizedBox(height: 15),
+      ],
     );
   }
 }
