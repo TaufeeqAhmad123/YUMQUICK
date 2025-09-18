@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/screens/order/cancel_order.dart';
+import 'package:food_delivery_app/screens/order/order_screen.dart';
 import 'package:food_delivery_app/widget/bottom_navbar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -44,6 +46,16 @@ class AppRouter {
         path: '/home',
         name: 'home',
         builder: (context, state) => const HomeScreen(),
+      ),
+      GoRoute(
+        path: '/order',
+        name: 'order',
+        builder: (context, state) => const MyOrdersScreen(),
+      ),
+      GoRoute(
+        path: '/order_cancel',
+        name: 'order_cancel',
+        builder: (context, state) => const CancelOrderScreen(),
       ),
     ],
     redirect: (context, state) {

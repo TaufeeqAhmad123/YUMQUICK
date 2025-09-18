@@ -180,7 +180,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                  children:const [
                     const Text(
                       'Strawberry shake',
                       style: TextStyle(

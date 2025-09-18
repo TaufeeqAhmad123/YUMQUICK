@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'custom_background.dart'; // Import the reusable widget
+import 'package:food_delivery_app/widget/custom_background.dart';
+
 
 class CancelOrderScreen extends StatefulWidget {
   const CancelOrderScreen({super.key});
