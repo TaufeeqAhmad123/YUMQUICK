@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_delivery_app/core/constants/app_colors.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MyOrdersScreen extends StatefulWidget {
   const MyOrdersScreen({super.key});
@@ -11,13 +12,31 @@ class MyOrdersScreen extends StatefulWidget {
 class _MyOrdersScreenState extends State<MyOrdersScreen> {
   String selectedTab = 'Active';
 
+  // Example orders list
+  List<Map<String, dynamic>> orders = [
+    {
+      "title": "Strawberry shake",
+      "price": 20.0,
+      "date": "29 Nov, 01:20 pm",
+      "items": "2 Items",
+      "image":
+          "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&h=400&fit=crop"
+    },
+    {
+      "title": "Cheese Pizza",
+      "price": 35.0,
+      "date": "28 Nov, 07:10 pm",
+      "items": "1 Item",
+      "image":
+          "https://images.unsplash.com/photo-1601924582971-c9f7f2eab111?w=400&h=400&fit=crop"
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration:  BoxDecoration(
-        color: AppColors.yellowbase
-        ),
+        decoration: BoxDecoration(color: AppColors.yellowbase),
         child: SafeArea(
           child: Column(
             children: [
@@ -45,7 +64,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 24), // Balance the back button
+                    const SizedBox(width: 24),
                   ],
                 ),
               ),
@@ -63,7 +82,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                   child: Column(
                     children: [
                       const SizedBox(height: 20),
-                      
+
                       // Tab Bar
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -87,12 +106,37 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                       // Orders List
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: ListView(
-                            children: [
-                              _buildOrderCard(),
-                            ],
-                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: orders.isEmpty
+                              ? Center(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(Icons.receipt_long,
+                                          size: 60, color: Colors.grey),
+                                      SizedBox(height: 10),
+                                      Text(
+                                        "You don't have any active orders at the moment",
+                                        style: GoogleFonts.leagueSpartan(
+                                          fontSize: 16,
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : ListView.builder(
+                                  itemCount: orders.length,
+                                  itemBuilder: (context, index) {
+                                    final order = orders[index];
+                                    return Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 16.0),
+                                      child: _buildOrderCard(order),
+                                    );
+                                  },
+                                ),
                         ),
                       ),
                     ],
@@ -135,7 +179,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
     );
   }
 
-  Widget _buildOrderCard() {
+  Widget _buildOrderCard(Map<String, dynamic> order) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -158,15 +202,15 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
             height: 60,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
-              image: const DecorationImage(
-                image: NetworkImage('https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&h=400&fit=crop'),
+              image: DecorationImage(
+                image: NetworkImage(order["image"]),
                 fit: BoxFit.cover,
               ),
             ),
           ),
-          
+
           const SizedBox(width: 16),
-          
+
           // Order Details
           Expanded(
             child: Column(
@@ -174,18 +218,18 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children:const [
-                    const Text(
-                      'Strawberry shake',
-                      style: TextStyle(
+                  children: [
+                    Text(
+                      order["title"],
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: Colors.black87,
                       ),
                     ),
-                    const Text(
-                      '\$20.00',
-                      style: TextStyle(
+                    Text(
+                      '\$${order["price"]}',
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: Color(0xFFFF8C42),
@@ -193,21 +237,21 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                     ),
                   ],
                 ),
-                
+
                 const SizedBox(height: 4),
-                
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '29 Nov, 01:20 pm',
+                      order["date"],
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.grey[600],
                       ),
                     ),
                     Text(
-                      '2 Items',
+                      order["items"],
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.grey[600],
@@ -215,9 +259,9 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                     ),
                   ],
                 ),
-                
+
                 const SizedBox(height: 12),
-                
+
                 // Action Buttons
                 Row(
                   children: [
@@ -244,7 +288,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 8),
                         decoration: BoxDecoration(
-                          border: Border.all(color: const Color(0xFFFF8C42)),
+                          border: Border.all(color: Color(0xFFFF8C42)),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: const Text(

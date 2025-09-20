@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/core/constants/app_colors.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CustomBackground extends StatelessWidget {
   final String title;
@@ -19,7 +21,7 @@ class CustomBackground extends StatelessWidget {
           Container(
             width: double.infinity,
             height: 120,
-            color: Colors.yellow[700],
+            color: AppColors.yellowbase,
             padding: const EdgeInsets.only(top: 40, left: 16, right: 16),
             child: Row(
               children: [
@@ -30,7 +32,7 @@ class CustomBackground extends StatelessWidget {
                 const Spacer(),
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: GoogleFonts.leagueSpartan(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
