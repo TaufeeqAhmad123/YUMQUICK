@@ -15,50 +15,50 @@ class CustomBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          // Yellow Header
-          Container(
-            width: double.infinity,
-            height: 120,
-            color: AppColors.yellowbase,
-            padding: const EdgeInsets.only(top: 40, left: 16, right: 16),
-            child: Row(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.black),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                const Spacer(),
-                Text(
-                  title,
-                  style: GoogleFonts.leagueSpartan(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+        body: Container(
+      color: AppColors.yellowbase,
+      child: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back, color: Colors.white),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  const Spacer(),
+                  Text(
+                    title,
+                    style: GoogleFonts.leagueSpartan(
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.font2,
+                    ),
+                  ),
+                  const Spacer(flex: 2),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(25),
+                    topRight: Radius.circular(25),
                   ),
                 ),
-                const Spacer(flex: 2),
-              ],
-            ),
-          ),
-
-          // White Container Body
-          Expanded(
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(30),
-                  topRight: Radius.circular(30),
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: child,
                 ),
               ),
-              child: child,
-            ),
-          ),
-        ],
+            )
+          ],
+        ),
       ),
-    );
+    ));
   }
 }

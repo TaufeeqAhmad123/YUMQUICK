@@ -5,6 +5,7 @@ import 'package:food_delivery_app/core/constants/app_strings.dart';
 import 'package:food_delivery_app/screens/home/home_screen.dart';
 import 'package:food_delivery_app/screens/order/cancel_order.dart';
 import 'package:food_delivery_app/screens/order/order_screen.dart';
+import 'package:food_delivery_app/screens/order/review_screen.dart';
 import 'package:food_delivery_app/screens/profile/profile.dart';
 
 class CustomBottomNavBar extends StatefulWidget {
@@ -29,7 +30,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
      ProfileScreen(),
     MyOrdersScreen(),
    CancelOrderScreen(),
-    Center(child: Text("❤️ Favorites Screen", style: TextStyle(fontSize: 22))),
+    LeaveReviewScreen(),
    
   ];
   @override
