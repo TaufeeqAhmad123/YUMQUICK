@@ -41,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 // Search + Icons
                 Row(
+                
                   children: [
                     Expanded(
                       child: CustomTextField(
@@ -53,27 +54,28 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     const SizedBox(width: 10),
-                    Row(
-                      children: List.generate(
-                        iconList.length,
-                        (index) => Container(
-                          margin: const EdgeInsets.only(left: 7),
-                          height: 35,
-                          width: 35,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                            child: SvgPicture.asset(
-                              iconList[index],
-                              height: 18,
-                              width: 18,
+                     Row(
+                        children: List.generate(
+                          iconList.length,
+                          (index) => Container(
+                            margin: const EdgeInsets.only(left: 7,top: 35),
+                            height: 35,
+                            width: 35,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: SvgPicture.asset(
+                                iconList[index],
+                                height: 18,
+                                width: 18,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
+                    
                   ],
                 ),
                 const SizedBox(height: 20),

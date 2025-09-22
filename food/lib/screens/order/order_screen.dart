@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:food_delivery_app/core/constants/app_colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+enum OrderStatus { active, completed, cancelled }
+
 class MyOrdersScreen extends StatefulWidget {
   const MyOrdersScreen({super.key});
 
@@ -19,6 +21,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
       "price": 20.0,
       "date": "29 Nov, 01:20 pm",
       "items": "2 Items",
+      "status": OrderStatus.active,
       "image":
           "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&h=400&fit=crop"
     },
@@ -27,10 +30,36 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
       "price": 35.0,
       "date": "28 Nov, 07:10 pm",
       "items": "1 Item",
+      "status": OrderStatus.completed,
       "image":
           "https://images.unsplash.com/photo-1601924582971-c9f7f2eab111?w=400&h=400&fit=crop"
     },
+    {
+      "title": "Burger Meal",
+      "price": 18.0,
+      "date": "27 Nov, 02:30 pm",
+      "items": "3 Items",
+      "status": OrderStatus.cancelled,
+      "image":
+          "https://images.unsplash.com/photo-1606755962773-0c3e6b9a4a71?w=400&h=400&fit=crop"
+    },
   ];
+
+  List<Map<String, dynamic>> get filteredOrders {
+    if (selectedTab == 'Active') {
+      return orders
+          .where((order) => order["status"] == OrderStatus.active)
+          .toList();
+    } else if (selectedTab == 'Completed') {
+      return orders
+          .where((order) => order["status"] == OrderStatus.completed)
+          .toList();
+    } else {
+      return orders
+          .where((order) => order["status"] == OrderStatus.cancelled)
+          .toList();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -106,17 +135,17 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                       // Orders List
                       Expanded(
                         child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: orders.isEmpty
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: filteredOrders.isEmpty
                               ? Center(
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Icon(Icons.receipt_long,
                                           size: 60, color: Colors.grey),
-                                      SizedBox(height: 10),
+                                      const SizedBox(height: 10),
                                       Text(
-                                        "You don't have any active orders at the moment",
+                                        "No ${selectedTab.toLowerCase()} orders yet",
                                         style: GoogleFonts.leagueSpartan(
                                           fontSize: 16,
                                           color: Colors.grey,
@@ -127,9 +156,9 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                                   ),
                                 )
                               : ListView.builder(
-                                  itemCount: orders.length,
+                                  itemCount: filteredOrders.length,
                                   itemBuilder: (context, index) {
-                                    final order = orders[index];
+                                    final order = filteredOrders[index];
                                     return Padding(
                                       padding:
                                           const EdgeInsets.only(bottom: 16.0),
@@ -162,16 +191,16 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
-            color: isSelected ? const Color(0xFFFF8C42) : Colors.transparent,
+            color: isSelected ? const Color(0xFFFF8C42) : AppColors.orengeLight,
             borderRadius: BorderRadius.circular(25),
           ),
           child: Text(
             title,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              color: isSelected ? Colors.white : Colors.grey[600],
+            style: GoogleFonts.leagueSpartan(
+              color: isSelected ? Colors.white : AppColors.orangeBase,
               fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-              fontSize: 14,
+              fontSize: 17,
             ),
           ),
         ),
@@ -265,43 +294,84 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
                 // Action Buttons
                 Row(
                   children: [
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFFF8C42),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: const Text(
-                          'Cancel Order',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12,
+                    if (order['status'] == OrderStatus.active) ...[
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFF8C42),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Text(
+                            'Cancel Order',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Color(0xFFFF8C42)),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: const Text(
-                          'Track Driver',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(0xFFFF8C42),
-                            fontWeight: FontWeight.w500,
-                            fontSize: 12,
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Color(0xFFFF8C42)),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Text(
+                            'Track Driver',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Color(0xFFFF8C42),
+                              fontWeight: FontWeight.w500,
+                              fontSize: 12,
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                    ] else if (order['status'] == OrderStatus.completed) ...[
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          decoration: BoxDecoration(
+                            color: AppColors.orangeBase,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            'Review',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.leagueSpartan(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          decoration: BoxDecoration(
+                            color: AppColors.orengeLight,
+                            border: Border.all(color: AppColors.orengeLight),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            'Order Again',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.leagueSpartan(
+                              color: AppColors.orangeBase,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ]
                   ],
                 ),
               ],
