@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_delivery_app/model/food_model.dart';
+import 'package:food_delivery_app/screens/details/detils_screen.dart';
 import 'package:food_delivery_app/screens/order/cancel_order.dart';
 import 'package:food_delivery_app/screens/order/order_screen.dart';
 import 'package:food_delivery_app/widget/bottom_navbar.dart';
@@ -57,6 +59,14 @@ class AppRouter {
         name: 'order_cancel',
         builder: (context, state) => const CancelOrderScreen(),
       ),
+      GoRoute(
+  path: '/detail',
+  name: 'detail',
+  builder: (context, state) {
+    final foodItem = state.extra as FoodModel; // 👈 cast back to FoodModel
+    return DetailScreen(foodItem: foodItem);
+  },
+),
     ],
     redirect: (context, state) {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);

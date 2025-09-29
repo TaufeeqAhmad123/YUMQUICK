@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:food_delivery_app/core/constants/app_colors.dart';
 import 'package:food_delivery_app/core/constants/app_strings.dart';
+import 'package:food_delivery_app/screens/favorite/favorite_screen.dart';
 import 'package:food_delivery_app/screens/home/home_screen.dart';
 import 'package:food_delivery_app/screens/order/cancel_order.dart';
 import 'package:food_delivery_app/screens/order/order_screen.dart';
@@ -27,7 +28,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
   ];
   final List<Widget> screens = const [
     HomeScreen(),
-     ProfileScreen(),
+    FavoriteScreen(),
     MyOrdersScreen(),
    CancelOrderScreen(),
     LeaveReviewScreen(),

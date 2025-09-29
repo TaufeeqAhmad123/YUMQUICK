@@ -58,16 +58,68 @@ class AppStrings {
   //Images
   static const String logo1 = 'assets/images/logo1.svg';
   static const String logo2 = 'assets/images/logo2.svg';
-  static const String seller1 = 'assets/images/seller1.png';
-  static const String seller2 = 'assets/images/seller2.png';
-  static const String seller3 = 'assets/images/seller3.png';
-  static const String seller4 = 'assets/images/seller4.png';
+
+  // Food images
   static const String food1 = 'assets/images/1.png';
   static const String food2 = 'assets/images/2.png';
   static const String food3 = 'assets/images/3.png';
   static const String food4 = 'assets/images/4.png';
   static const String food5 = 'assets/images/5.png';
   static const String food6 = 'assets/images/6.png';
+
+  // Burger images
+  static const String burger1 = 'assets/images/burger.jpeg';
+  static const String burger2 = 'assets/images/burger2.jpeg';
+  static const String burger3 = 'assets/images/burger3.jpeg';
+  static const String burger4 = 'assets/images/burger4.jpeg';
+
+  // Cake images
+  static const String cake1 = 'assets/images/cake.jpeg';
+  static const String cake2 = 'assets/images/cake1.jpeg';
+  static const String cake3 = 'assets/images/cake2.jpeg';
+  static const String cake4 = 'assets/images/cake3.jpeg';
+
+  // Dessert images
+  static const String dessert1 = 'assets/images/dessert.jpeg';
+  static const String dessert2 = 'assets/images/dessert1.jpeg';
+  static const String dessert3 = 'assets/images/dessert2.jpeg';
+  static const String dessert4 = 'assets/images/dessert3.jpeg';
+  static const String dessert5 = 'assets/images/dessert4.jpeg';
+
+  // Karahi
+  static const String karahi1 = 'assets/images/Karahi.jpeg';
+  static const String karahi2 = 'assets/images/Karahi1.jpeg';
+  static const String karahi3 = 'assets/images/Karahi2.jpeg';
+
+  // Pizza
+  static const String pizza1 = 'assets/images/pizza1.jpeg';
+  static const String pizza2 = 'assets/images/pizza2.jpeg';
+  static const String pizza3 = 'assets/images/pizza3.jpeg';
+  static const String pizza4 = 'assets/images/pizza4.jpeg';
+  static const String pizza5 = 'assets/images/pizza5.png';
+
+  // Rolls
+  static const String roll1 = 'assets/images/roll1.jpeg';
+  static const String roll2 = 'assets/images/roll2.jpeg';
+  static const String rool = 'assets/images/rool.jpeg'; // typo in file name?
+
+  // Seller
+  static const String seller1 = 'assets/images/seller1.png';
+  static const String seller2 = 'assets/images/seller2.png';
+  static const String seller3 = 'assets/images/seller3.png';
+  static const String seller4 = 'assets/images/seller4.png';
+
+  // Shakes
+  static const String shake1 = 'assets/images/shake1.jpeg';
+  static const String shake2 = 'assets/images/shake2.jpeg';
+  static const String shake3 = 'assets/images/shake3.jpeg';
+  static const String shake4 = 'assets/images/shake4.jpeg';
+
+  // Sushi
+  static const String sushi1 = 'assets/images/sushi.jpeg';
+  static const String sushi2 = 'assets/images/sushi1.jpegi'; // looks like typo
+  static const String sushi3 = 'assets/images/shushi2.jpeg'; // shushi?
+  static const String sushi4 = 'assets/images/shushi3.jpeg';
   //animations
   static const String onboardingAnimation1 = 'assets/animation/1.json';
   static const String onboardingAnimation2 = 'assets/animation/2.json';

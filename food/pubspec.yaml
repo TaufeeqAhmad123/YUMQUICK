@@ -33,6 +33,8 @@ dependencies:
   lottie: ^2.3.0
   carousel_slider: 
   smooth_page_indicator: 
+  riverpod:
+  flutter_riverpod: 
 
 dev_dependencies:
   flutter_test:

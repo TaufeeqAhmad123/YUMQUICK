@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_delivery_app/screens/splash/splash_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 
 import 'core/constants/app_colors.dart';
 import 'core/router/app_router.dart';
@@ -19,21 +19,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider()),
-        ChangeNotifierProvider(create: (_) => OnboardingProvider()),
-        ChangeNotifierProvider(create: (_) => FoodProvider()),
-      ],
-      child: MaterialApp.router(
-        title: 'Food Delivery App',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-    
-          visualDensity: VisualDensity.adaptivePlatformDensity,
+    return ProviderScope(
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => AuthProvider()),
+          ChangeNotifierProvider(create: (_) => OnboardingProvider()),
+          ChangeNotifierProvider(create: (_) => FoodProvider()),
+        ],
+        child: MaterialApp.router(
+          title: 'Food Delivery App',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          routerConfig: AppRouter.router,
+          // home: SplashScreen(),
         ),
-        routerConfig: AppRouter.router,
-      // home: SplashScreen(),
       ),
     );
   }
