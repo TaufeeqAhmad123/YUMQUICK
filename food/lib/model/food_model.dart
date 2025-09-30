@@ -7,7 +7,7 @@ enum FoodCategory {
   cake,
   drink,
   pasta,
-  sandwich,
+  sandwich, none,
 }
 
 // Model class for Food
@@ -20,7 +20,7 @@ class FoodModel {
   final String size; // e.g., Small, Medium, Large
   final FoodCategory category;
   final String image; // <-- added image
-
+  final int quantity;
   FoodModel({
     required this.id,
     required this.title,
@@ -30,8 +30,39 @@ class FoodModel {
     required this.size,
     required this.category,
     required this.image,
+    this.quantity = 1,
   });
+
+
+  double get totalPrice => price * quantity;
+FoodModel copyWith({
+    String? id,
+    String? title,
+    String? description,
+    double? price,
+    double? rating,
+    String? size,
+    FoodCategory? category,
+    String? image,
+    int? quantity,
+  }) {
+    return FoodModel(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      price: price ?? this.price,
+      rating: rating ?? this.rating,
+      size: size ?? this.size,
+      category: category ?? this.category,
+      image: image ?? this.image,
+      quantity: quantity ?? this.quantity,
+    );
+  }
 }
+
+
+
+
 
 List<FoodModel> foodList = [
   // 🍕 Pizza
