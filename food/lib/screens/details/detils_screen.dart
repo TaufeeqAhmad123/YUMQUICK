@@ -4,6 +4,8 @@ import 'package:food_delivery_app/core/constants/app_colors.dart';
 import 'package:food_delivery_app/model/food_model.dart';
 import 'package:food_delivery_app/providers/cart_provider.dart';
 import 'package:food_delivery_app/providers/fav_provider.dart';
+import 'package:food_delivery_app/screens/details/widget/size_widget.dart';
+import 'package:food_delivery_app/screens/details/widget/title&prize.dart';
 import 'package:food_delivery_app/widget/cutom_button.dart';
 
 import 'package:go_router/go_router.dart';
@@ -21,13 +23,14 @@ class DetailScreen extends ConsumerWidget {
     final cartState = ref.watch(cartProvider);
     final cartNotifier = ref.read(cartProvider.notifier);
     final quantity = ref.watch(quantityProvider);
-;
-  //  final quantity = ref.watch(quantityProvider);
+    final selectedSize = ref.watch(selectedSizeProvider);
+    //  final quantity = ref.watch(quantityProvider);
     return Scaffold(
         body: Container(
       color: AppColors.yellowbase,
       child: SafeArea(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -111,6 +114,8 @@ class DetailScreen extends ConsumerWidget {
                   child: Container(
                     width: double.infinity,
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(20),
@@ -125,61 +130,23 @@ class DetailScreen extends ConsumerWidget {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        Row(
-                          children: [
-                            Text(
-                              '\$${(foodItem.price*quantity).toStringAsFixed(2)}',
-                              style: GoogleFonts.leagueSpartan(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.orangeBase),
-                            ),
-                            const Spacer(),
-                            InkWell(
-                              onTap: () => ref.read(quantityProvider.notifier).state --,
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: AppColors.orangeBase),
-                                child: Center(
-                                  child: Icon(
-                                    Icons.remove,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Text(
-                              '${quantity}',
-                              style: GoogleFonts.leagueSpartan(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.font),
-                            ),
-                            const SizedBox(width: 10),
-                            InkWell(
-                              onTap: () => ref.read(quantityProvider.notifier).state++,
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: AppColors.orangeBase),
-                                child: Center(
-                                  child: Icon(
-                                    Icons.add,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
+                        titleandprice(
+                            foodItem: foodItem,
+                            selectedSize: selectedSize,
+                            quantity: quantity),
+                        const SizedBox(height: 10),
+                        Text(
+                          'Select Size',
+                          style: GoogleFonts.leagueSpartan(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.font),
                         ),
+                        const SizedBox(height: 10),
+                        sizeWidget(
+                            foodItem: foodItem,
+                            selectedSize: selectedSize,
+                            quantity: quantity),
                         const SizedBox(height: 20),
                         Text(
                           foodItem.description,
@@ -192,13 +159,29 @@ class DetailScreen extends ConsumerWidget {
                           text: isInCart ? 'Added to Cart' : 'Add to Cart',
                           onPressed: () {
                             if (!isInCart) {
-                              ref
-                                  .read(cartProvider.notifier)
-                                  .addToCart(foodItem, quantity: quantity);
-                                  ref.read(quantityProvider.notifier).state = 1;
+                              ref.read(cartProvider.notifier).addToCart(
+                                  foodItem,
+                                  quantity: quantity,
+                                  size: selectedSize);
+                              ref.read(quantityProvider.notifier).state = 1;
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: AppColors.orangeBase,
+                                  content: Text(
+                                      "Added ${foodItem.title} (${selectedSize.displayName})"),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  backgroundColor: AppColors.orangeBase,
+                                  content: Text(
+                                      "${foodItem.title} is already in the cart"),
+                                ),
+                              );
                             }
                           },
-                          color: isInCart ? Colors.grey : AppColors.orangeBase,
+                          color: AppColors.orangeBase,
                         ),
                       ],
                     ),

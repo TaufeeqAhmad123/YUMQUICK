@@ -235,7 +235,7 @@ class CartScreen extends ConsumerWidget {
                       ),
                     ),
                     Text(
-                      '⭐ ${order.rating.toStringAsFixed(1)}',
+                      '⭐ ${order.selectedSize.name}',
                       style: GoogleFonts.leagueSpartan(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,

@@ -1,3 +1,4 @@
+
 // Enum for food categories
 import 'package:food_delivery_app/core/constants/app_strings.dart';
 
@@ -7,41 +8,71 @@ enum FoodCategory {
   cake,
   drink,
   pasta,
-  sandwich, none,
+  sandwich,
+  none,
 }
 
-// Model class for Food
+// Enum for food sizes
+enum FoodSize {
+  S,
+  M,
+  L,
+}
+
+// Extension to get display name for size
+extension FoodSizeExtension on FoodSize {
+  String get displayName {
+    switch (this) {
+      case FoodSize.S:
+        return 'S';
+      case FoodSize.M:
+        return 'M';
+      case FoodSize.L:
+        return 'L';
+    }
+  }
+}
+
+// Model class for Food with size variants
 class FoodModel {
   final String id;
   final String title;
   final String description;
-  final double price;
+  final Map<FoodSize, double> sizePrices; // Different prices for each size
   final double rating;
-  final String size; // e.g., Small, Medium, Large
+  final FoodSize selectedSize; // Currently selected size
   final FoodCategory category;
-  final String image; // <-- added image
+  final String image;
   final int quantity;
+
   FoodModel({
     required this.id,
     required this.title,
     required this.description,
-    required this.price,
+    required this.sizePrices,
     required this.rating,
-    required this.size,
+    this.selectedSize = FoodSize.M, // Default to M
     required this.category,
     required this.image,
     this.quantity = 1,
   });
 
+  // Get price based on selected size
+  double get price => sizePrices[selectedSize] ?? 0.0;
 
+  // Get total price (price × quantity)
   double get totalPrice => price * quantity;
-FoodModel copyWith({
+
+  // Get available sizes for this food item
+  List<FoodSize> get availableSizes => sizePrices.keys.toList();
+
+  FoodModel copyWith({
     String? id,
     String? title,
     String? description,
-    double? price,
+    Map<FoodSize, double>? sizePrices,
     double? rating,
-    String? size,
+    FoodSize? selectedSize,
     FoodCategory? category,
     String? image,
     int? quantity,
@@ -50,19 +81,23 @@ FoodModel copyWith({
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
-      price: price ?? this.price,
+      sizePrices: sizePrices ?? this.sizePrices,
       rating: rating ?? this.rating,
-      size: size ?? this.size,
+      selectedSize: selectedSize ?? this.selectedSize,
       category: category ?? this.category,
       image: image ?? this.image,
       quantity: quantity ?? this.quantity,
     );
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is FoodModel && runtimeType == other.runtimeType && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }
-
-
-
-
 
 List<FoodModel> foodList = [
   // 🍕 Pizza
@@ -70,9 +105,12 @@ List<FoodModel> foodList = [
     id: '1',
     title: "Margherita Pizza",
     description: "Classic cheese pizza with tomato sauce and mozzarella.",
-    price: 9.99,
+    sizePrices: {
+      FoodSize.S: 7.99,
+      FoodSize.M: 9.99,
+      FoodSize.L: 12.99,
+    },
     rating: 4.5,
-    size: "Medium",
     category: FoodCategory.pizza,
     image: AppStrings.pizza1,
   ),
@@ -80,9 +118,12 @@ List<FoodModel> foodList = [
     id: '2',
     title: "Pepperoni Pizza",
     description: "Loaded with pepperoni and mozzarella cheese.",
-    price: 10.99,
+    sizePrices: {
+      FoodSize.S: 8.99,
+      FoodSize.M: 10.99,
+      FoodSize.L: 13.99,
+    },
     rating: 4.6,
-    size: "Large",
     category: FoodCategory.pizza,
     image: AppStrings.pizza2,
   ),
@@ -90,9 +131,12 @@ List<FoodModel> foodList = [
     id: '3',
     title: "BBQ Chicken Pizza",
     description: "Chicken, BBQ sauce, and onions on a crispy crust.",
-    price: 11.49,
+    sizePrices: {
+      FoodSize.S: 9.49,
+      FoodSize.M: 11.49,
+      FoodSize.L: 14.49,
+    },
     rating: 4.7,
-    size: "Medium",
     category: FoodCategory.pizza,
     image: AppStrings.pizza3,
   ),
@@ -100,9 +144,12 @@ List<FoodModel> foodList = [
     id: '4',
     title: "Veggie Pizza",
     description: "Tomatoes, onions, mushrooms, and peppers.",
-    price: 8.99,
+    sizePrices: {
+      FoodSize.S: 6.99,
+      FoodSize.M: 8.99,
+      FoodSize.L: 11.99,
+    },
     rating: 4.4,
-    size: "Small",
     category: FoodCategory.pizza,
     image: AppStrings.pizza4,
   ),
@@ -110,9 +157,12 @@ List<FoodModel> foodList = [
     id: '5',
     title: "Cheesy Pizza",
     description: "Extra mozzarella cheese with garlic butter crust.",
-    price: 12.49,
+    sizePrices: {
+      FoodSize.S: 10.49,
+      FoodSize.M: 12.49,
+      FoodSize.L: 15.49,
+    },
     rating: 4.8,
-    size: "Large",
     category: FoodCategory.pizza,
     image: AppStrings.pizza5,
   ),
@@ -122,9 +172,12 @@ List<FoodModel> foodList = [
     id: '6',
     title: "Beef Burger",
     description: "Juicy beef patty with cheese, lettuce, and tomato.",
-    price: 7.49,
+    sizePrices: {
+      FoodSize.S: 5.49,
+      FoodSize.M: 7.49,
+      FoodSize.L: 9.49,
+    },
     rating: 4.2,
-    size: "Large",
     category: FoodCategory.burger,
     image: AppStrings.burger1,
   ),
@@ -132,9 +185,12 @@ List<FoodModel> foodList = [
     id: '7',
     title: "Cheese Burger",
     description: "Double cheese layers with crispy patty.",
-    price: 6.99,
+    sizePrices: {
+      FoodSize.S: 4.99,
+      FoodSize.M: 6.99,
+      FoodSize.L: 8.99,
+    },
     rating: 4.3,
-    size: "Regular",
     category: FoodCategory.burger,
     image: AppStrings.burger2,
   ),
@@ -142,9 +198,12 @@ List<FoodModel> foodList = [
     id: '8',
     title: "Chicken Burger",
     description: "Crispy chicken fillet with mayo and lettuce.",
-    price: 6.49,
+    sizePrices: {
+      FoodSize.S: 4.49,
+      FoodSize.M: 6.49,
+      FoodSize.L: 8.49,
+    },
     rating: 4.1,
-    size: "Regular",
     category: FoodCategory.burger,
     image: AppStrings.burger3,
   ),
@@ -152,9 +211,12 @@ List<FoodModel> foodList = [
     id: '9',
     title: "Zinger Burger",
     description: "Spicy zinger patty with cheese slice.",
-    price: 6.99,
+    sizePrices: {
+      FoodSize.S: 4.99,
+      FoodSize.M: 6.99,
+      FoodSize.L: 8.99,
+    },
     rating: 4.4,
-    size: "Large",
     category: FoodCategory.burger,
     image: AppStrings.burger4,
   ),
@@ -164,9 +226,12 @@ List<FoodModel> foodList = [
     id: '10',
     title: "Chocolate Cake",
     description: "Rich chocolate cake with creamy frosting.",
-    price: 5.99,
+    sizePrices: {
+      FoodSize.S: 3.99,
+      FoodSize.M: 5.99,
+      FoodSize.L: 8.99,
+    },
     rating: 4.8,
-    size: "Slice",
     category: FoodCategory.cake,
     image: AppStrings.cake1,
   ),
@@ -174,9 +239,12 @@ List<FoodModel> foodList = [
     id: '11',
     title: "Vanilla Cake",
     description: "Soft vanilla sponge with whipped cream.",
-    price: 4.99,
+    sizePrices: {
+      FoodSize.S: 2.99,
+      FoodSize.M: 4.99,
+      FoodSize.L: 7.99,
+    },
     rating: 4.5,
-    size: "Slice",
     category: FoodCategory.cake,
     image: AppStrings.cake2,
   ),
@@ -184,9 +252,12 @@ List<FoodModel> foodList = [
     id: '12',
     title: "Red Velvet Cake",
     description: "Classic red velvet with cream cheese frosting.",
-    price: 6.49,
+    sizePrices: {
+      FoodSize.S: 4.49,
+      FoodSize.M: 6.49,
+      FoodSize.L: 9.49,
+    },
     rating: 4.7,
-    size: "Slice",
     category: FoodCategory.cake,
     image: AppStrings.cake3,
   ),
@@ -194,9 +265,12 @@ List<FoodModel> foodList = [
     id: '13',
     title: "Birthday Cake",
     description: "Layered cake with colorful sprinkles.",
-    price: 15.99,
+    sizePrices: {
+      FoodSize.S: 12.99,
+      FoodSize.M: 15.99,
+      FoodSize.L: 19.99,
+    },
     rating: 4.9,
-    size: "Large",
     category: FoodCategory.cake,
     image: AppStrings.cake4,
   ),
@@ -206,9 +280,12 @@ List<FoodModel> foodList = [
     id: '14',
     title: "Strawberry Shake",
     description: "Fresh strawberry milkshake topped with cream.",
-    price: 3.99,
+    sizePrices: {
+      FoodSize.S: 2.99,
+      FoodSize.M: 3.99,
+      FoodSize.L: 5.99,
+    },
     rating: 4.3,
-    size: "Regular",
     category: FoodCategory.drink,
     image: AppStrings.shake1,
   ),
@@ -216,9 +293,12 @@ List<FoodModel> foodList = [
     id: '15',
     title: "Mango Shake",
     description: "Ripe mango blended into creamy shake.",
-    price: 4.49,
+    sizePrices: {
+      FoodSize.S: 3.49,
+      FoodSize.M: 4.49,
+      FoodSize.L: 6.49,
+    },
     rating: 4.4,
-    size: "Large",
     category: FoodCategory.drink,
     image: AppStrings.shake2,
   ),
@@ -226,9 +306,12 @@ List<FoodModel> foodList = [
     id: '16',
     title: "Oreo Shake",
     description: "Oreo blended with chocolate milkshake.",
-    price: 4.99,
+    sizePrices: {
+      FoodSize.S: 3.99,
+      FoodSize.M: 4.99,
+      FoodSize.L: 6.99,
+    },
     rating: 4.6,
-    size: "Large",
     category: FoodCategory.drink,
     image: AppStrings.shake3,
   ),
@@ -236,9 +319,12 @@ List<FoodModel> foodList = [
     id: '17',
     title: "Banana Shake",
     description: "Sweet banana shake full of energy.",
-    price: 3.79,
+    sizePrices: {
+      FoodSize.S: 2.79,
+      FoodSize.M: 3.79,
+      FoodSize.L: 5.79,
+    },
     rating: 4.1,
-    size: "Regular",
     category: FoodCategory.drink,
     image: AppStrings.shake4,
   ),
@@ -248,9 +334,12 @@ List<FoodModel> foodList = [
     id: '18',
     title: "Classic Sushi",
     description: "Japanese sushi roll with fresh fish.",
-    price: 9.99,
+    sizePrices: {
+      FoodSize.S: 7.99, // 4 pcs
+      FoodSize.M: 9.99, // 8 pcs
+      FoodSize.L: 13.99, // 12 pcs
+    },
     rating: 4.5,
-    size: "8 pcs",
     category: FoodCategory.sandwich,
     image: AppStrings.sushi1,
   ),
@@ -258,9 +347,12 @@ List<FoodModel> foodList = [
     id: '19',
     title: "Salmon Sushi",
     description: "Fresh salmon slices with rice and seaweed.",
-    price: 11.99,
+    sizePrices: {
+      FoodSize.S: 9.99, // 4 pcs
+      FoodSize.M: 11.99, // 6 pcs
+      FoodSize.L: 15.99, // 10 pcs
+    },
     rating: 4.7,
-    size: "6 pcs",
     category: FoodCategory.sandwich,
     image: AppStrings.sushi3,
   ),
@@ -268,9 +360,12 @@ List<FoodModel> foodList = [
     id: '20',
     title: "Tuna Sushi",
     description: "Delicious tuna wrapped in rice rolls.",
-    price: 10.49,
+    sizePrices: {
+      FoodSize.S: 8.49, // 4 pcs
+      FoodSize.M: 10.49, // 6 pcs
+      FoodSize.L: 14.49, // 10 pcs
+    },
     rating: 4.6,
-    size: "6 pcs",
     category: FoodCategory.sandwich,
     image: AppStrings.sushi4,
   ),

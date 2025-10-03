@@ -113,7 +113,7 @@ class FavoriteScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      order.size,
+                      order.selectedSize.name.toUpperCase(),
                       style:  GoogleFonts.leagueSpartan(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
